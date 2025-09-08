@@ -1,0 +1,267 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+enum VerificationStatus {
+  PENDING
+  VERIFIED
+  EXPIRED
+  REVOKED
+}
+
+enum DigitalIDStatus {
+  ACTIVE
+  EXPIRED
+  REVOKED
+}
+
+enum LocationPrecision {
+  EXACT
+  STREET
+  NEIGHBORHOOD
+  CITY
+}
+
+enum LocationSharingStatus {
+  DISABLED
+  ACTIVE
+  EXPIRED
+  EMERGENCY
+}
+
+enum LocationAccessorType {
+  EMERGENCY
+  AUTHORITY
+  USER
+}
+
+enum EmergencyUrgencyLevel {
+  LOW
+  MEDIUM
+  HIGH
+  CRITICAL
+}
+
+enum LocationSource {
+  GPS
+  NETWORK
+  MANUAL
+}
+
+enum GeofenceType {
+  SAFE_ZONE
+  ALERT_ZONE
+  RESTRICTED
+}
+
+enum RiskLevel {
+  LOW
+  MEDIUM
+  HIGH
+}
+
+model User {
+  id                   Int                  @id @default(autoincrement())
+  email                String               @unique
+  name                 String
+  blockchain_address   String?              @unique
+  verification_status  VerificationStatus   @default(PENDING)
+  created_at          DateTime             @default(now())
+  updated_at          DateTime             @updatedAt
+
+  // Relations
+  user_profile        UserProfile?
+  digital_ids         DigitalID[]
+  location_sharing    LocationSharingSettings[]
+  location_history    LocationHistoryEntry[]
+  privacy_settings    LocationPrivacySettings?
+  emergency_requests_created EmergencyLocationRequest[] @relation("EmergencyRequester")
+  emergency_requests_target  EmergencyLocationRequest[] @relation("EmergencyTarget")
+  location_access_logs LocationAccessLog[]
+  geofences           GeofenceArea[]
+  geofence_breaches   GeofenceBreach[]
+
+  @@map("users")
+}
+
+model UserProfile {
+  id                  Int      @id @default(autoincrement())
+  user_id            Int      @unique
+  kyc_data           String   // JSON string for SQLite compatibility
+  emergency_contacts String   // JSON string for SQLite compatibility
+  created_at         DateTime @default(now())
+  updated_at         DateTime @updatedAt
+
+  // Relations
+  user               User     @relation(fields: [user_id], references: [id], onDelete: Cascade)
+
+  @@map("user_profiles")
+}
+
+model DigitalID {
+  id               Int             @id @default(autoincrement())
+  user_id         Int
+  blockchain_hash String          @unique
+  qr_code_data    String
+  valid_from      DateTime
+  valid_until     DateTime
+  status          DigitalIDStatus @default(ACTIVE)
+  created_at      DateTime        @default(now())
+
+  // Relations
+  user            User            @relation(fields: [user_id], references: [id], onDelete: Cascade)
+
+  @@map("digital_ids")
+}
+
+model LocationSharingSettings {
+  id                  Int                   @id @default(autoincrement())
+  user_id            Int
+  status             LocationSharingStatus @default(DISABLED)
+  precision          LocationPrecision     @default(STREET)
+  expires_at         DateTime
+  created_at         DateTime              @default(now())
+  updated_at         DateTime              @updatedAt
+  emergency_override Boolean               @default(false)
+  allowed_accessors  String                // JSON array of accessor IDs
+
+  // Relations
+  user               User                  @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  access_logs        LocationAccessLog[]
+
+  @@map("location_sharing_settings")
+}
+
+model LocationAccessLog {
+  id               Int                   @id @default(autoincrement())
+  sharing_id       Int
+  accessor_id      Int
+  accessor_type    LocationAccessorType
+  accessed_at      DateTime              @default(now())
+  encrypted_coordinates String
+  salt             String
+  iv               String
+  precision        LocationPrecision
+  reason           String?
+  blockchain_hash  String?
+
+  // Relations
+  sharing_settings LocationSharingSettings @relation(fields: [sharing_id], references: [id], onDelete: Cascade)
+  accessor         User                    @relation(fields: [accessor_id], references: [id])
+
+  @@map("location_access_logs")
+}
+
+model EmergencyLocationRequest {
+  id              Int                   @id @default(autoincrement())
+  request_id      String                @unique
+  authority_id    Int
+  target_user_id  Int
+  reason          String
+  urgency_level   EmergencyUrgencyLevel
+  requested_at    DateTime              @default(now())
+  approved_at     DateTime?
+  expires_at      DateTime
+
+  // Relations
+  authority       User                  @relation("EmergencyRequester", fields: [authority_id], references: [id])
+  target_user     User                  @relation("EmergencyTarget", fields: [target_user_id], references: [id])
+
+  @@map("emergency_location_requests")
+}
+
+model LocationHistoryEntry {
+  id                    Int              @id @default(autoincrement())
+  user_id              Int
+  encrypted_coordinates String
+  salt                 String
+  iv                   String
+  precision            LocationPrecision
+  accuracy             Float
+  recorded_at          DateTime          @default(now())
+  source               LocationSource
+  retain_until         DateTime
+
+  // Relations
+  user                 User              @relation(fields: [user_id], references: [id], onDelete: Cascade)
+
+  @@map("location_history")
+}
+
+model LocationPrivacySettings {
+  id                      Int               @id @default(autoincrement())
+  user_id                Int               @unique
+  default_precision       LocationPrecision @default(STREET)
+  allow_emergency_access  Boolean           @default(true)
+  history_retention_days  Int               @default(30)
+  notify_on_access        Boolean           @default(true)
+  auto_expire_minutes     Int               @default(240)
+  trusted_authorities     String            // JSON array of authority IDs
+  updated_at             DateTime          @updatedAt
+
+  // Relations
+  user                   User              @relation(fields: [user_id], references: [id], onDelete: Cascade)
+
+  @@map("location_privacy_settings")
+}
+
+model GeofenceArea {
+  id             Int          @id @default(autoincrement())
+  name           String
+  description    String?
+  // Store polygon coordinates as JSON string for simple implementation
+  polygon_coords String       // JSON array of [lat, lng] points
+  risk_level     RiskLevel    @default(MEDIUM)
+  type           GeofenceType
+  created_by     Int
+  is_active      Boolean      @default(true)
+  created_at     DateTime     @default(now())
+  updated_at     DateTime     @updatedAt
+
+  // Relations
+  creator        User         @relation(fields: [created_by], references: [id])
+  breaches       GeofenceBreach[]
+
+  @@map("geofence_areas")
+}
+
+model GeofenceBreach {
+  id             Int          @id @default(autoincrement())
+  user_id        Int
+  geofence_id    Int
+  latitude       Float
+  longitude      Float
+  risk_score     Int          @default(50)
+  alert_sent     Boolean      @default(false)
+  occurred_at    DateTime     @default(now())
+
+  // Relations
+  user           User         @relation(fields: [user_id], references: [id])
+  geofence       GeofenceArea @relation(fields: [geofence_id], references: [id])
+
+  @@map("geofence_breaches")
+}
+
+model EmergencyAccessLog {
+  id               String   @id @default(cuid())
+  user_id          String
+  service_id       String
+  operator_id      String
+  incident_id      String
+  access_granted   Boolean
+  request_reason   String
+  emergency_type   String
+  jurisdiction     String
+  created_at       DateTime @default(now())
+
+  @@map("emergency_access_logs")
+}

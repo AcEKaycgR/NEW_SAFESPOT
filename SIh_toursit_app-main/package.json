@@ -1,0 +1,73 @@
+{
+  "name": "safespot-monorepo",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Comprehensive tourist safety platform with blockchain authentication and AI-powered features",
+  "keywords": ["tourism", "safety", "blockchain", "ai", "authentication", "digital-id"],
+  "license": "MIT",
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
+  },
+  "scripts": {
+    "dev:frontend": "cd frontend && npm run dev",
+    "dev:backend": "cd backend && npm run dev",
+    "dev:contracts": "cd smart-contracts && npx hardhat node",
+    "dev": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\"",
+    "install:all": "npm install && cd frontend && npm install && cd ../backend && npm install && cd ../smart-contracts && npm install",
+    "build:frontend": "cd frontend && npm run build",
+    "build:backend": "cd backend && npm run build",
+    "build:contracts": "cd smart-contracts && npx hardhat compile",
+    "build": "npm run build:contracts && npm run build:backend && npm run build:frontend",
+    "test:frontend": "cd frontend && npm test",
+    "test:backend": "cd backend && npm test",
+    "test:contracts": "cd smart-contracts && npx hardhat test",
+    "test:all": "npm run test:contracts && npm run test:backend && npm run test:frontend",
+    "test:coverage": "npm run test:backend -- --coverage && npm run test:frontend -- --coverage",
+    "lint": "cd frontend && npm run lint && cd ../backend && npm run lint",
+    "lint:fix": "cd frontend && npm run lint -- --fix && cd ../backend && npm run lint -- --fix",
+    "typecheck": "cd frontend && npm run typecheck && cd ../backend && npx tsc --noEmit",
+    "format": "cd frontend && npm run format && cd ../backend && npm run format",
+    "clean": "rimraf node_modules frontend/node_modules backend/node_modules smart-contracts/node_modules .next",
+    "clean:dist": "rimraf frontend/.next backend/dist smart-contracts/artifacts smart-contracts/cache",
+    "clean:logs": "rimraf backend/logs frontend/.next/cache",
+    "reset": "npm run clean && npm run clean:dist && npm run install:all",
+    "start:frontend": "cd frontend && npm start",
+    "start:backend": "cd backend && npm start",
+    "start": "concurrently \"npm run start:backend\" \"npm run start:frontend\"",
+    "deploy:contracts": "cd smart-contracts && npx hardhat run scripts/deploy.js --network mainnet",
+    "deploy:contracts:testnet": "cd smart-contracts && npx hardhat run scripts/deploy.js --network sepolia",
+    "migrate:db": "cd backend && npx prisma migrate deploy",
+    "migrate:db:dev": "cd backend && npx prisma migrate dev",
+    "generate:prisma": "cd backend && npx prisma generate",
+    "studio:db": "cd backend && npx prisma studio",
+    "backup:db": "cd backend && node scripts/backup-db.js",
+    "health": "curl -f http://localhost:3001/health && curl -f http://localhost:3000",
+    "verify:setup": "node scripts/verify-setup.js",
+    "security:audit": "cd frontend && npm audit && cd ../backend && npm audit && cd ../smart-contracts && npm audit",
+    "security:audit:fix": "cd frontend && npm audit fix && cd ../backend && npm audit fix && cd ../smart-contracts && npm audit fix",
+    "docs:serve": "npx http-server docs -p 8080",
+    "precommit": "npm run lint && npm run typecheck && npm run test:all"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2",
+    "rimraf": "^5.0.5",
+    "http-server": "^14.1.1"
+  },
+  "dependencies": {
+    "ethers": "6.15.0"
+  },
+  "workspaces": [
+    "frontend",
+    "backend",
+    "smart-contracts"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/safespot.git"
+  },
+  "bugs": {
+    "url": "https://github.com/yourusername/safespot/issues"
+  },
+  "homepage": "https://safespot.com"
+}

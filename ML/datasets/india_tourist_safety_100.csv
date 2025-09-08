@@ -1,0 +1,101 @@
+id,name,category,latitude,longitude,avg_safe_time,current_spent_time,status
+1,MG Road Market Jaipur,market,26.9124,75.7873,2.0,2.02,risk
+2,Select City Walk Delhi,mall,28.5286,77.2193,2.5,1.72,safe
+3,Baga Beach,beach,15.5527,73.7517,4.5,2.48,safe
+4,Commercial Street Bangalore,market,12.9835,77.605,2.0,1.49,safe
+5,Select City Walk Delhi,mall,28.5286,77.2193,2.5,2.42,safe
+6,Essel World,theme_park,19.2288,72.8031,4.0,5.41,risk
+7,MG Road Market Jaipur,market,26.9124,75.7873,2.0,2.06,risk
+8,India Gate,attraction,28.6129,77.2295,1.5,1.44,safe
+9,Baga Beach,beach,15.5527,73.7517,4.5,6.4,risk
+10,Ajanta Caves,attraction,20.552,75.7033,3.0,3.77,risk
+11,Commercial Street Bangalore,market,12.9835,77.605,2.0,1.58,safe
+12,MG Road Market Jaipur,market,26.9124,75.7873,2.0,1.56,safe
+13,Wonderla,theme_park,12.8345,77.4011,4.0,3.48,safe
+14,INOX Bangalore,cinema,12.9716,77.5946,3.0,2.38,safe
+15,PVR Cinemas Delhi,cinema,28.5674,77.321,3.0,1.34,safe
+16,Varkala Beach,beach,8.7379,76.716,4.5,2.7,safe
+17,Ellora Caves,attraction,20.0268,75.179,3.0,1.71,safe
+18,Manali Trek,trekking,32.2396,77.1887,6.0,7.43,risk
+19,Bannerghatta Zoo,zoo,12.8,77.577,4.0,2.17,safe
+20,Calangute Beach,beach,15.5449,73.755,4.5,5.75,risk
+21,Nandi Hills,trekking,13.3702,77.6835,5.0,4.63,safe
+22,Marine Drive,attraction,18.9432,72.8238,2.0,2.55,risk
+23,Hampta Pass Trek,trekking,32.2781,77.377,6.0,3.36,safe
+24,Commercial Street Bangalore,market,12.9835,77.605,2.0,2.98,risk
+25,Baga Beach,beach,15.5527,73.7517,4.5,5.98,risk
+26,PVR Cinemas Delhi,cinema,28.5674,77.321,3.0,3.93,risk
+27,Essel World,theme_park,19.2288,72.8031,4.0,5.51,risk
+28,Golden Temple,attraction,31.62,74.8765,2.0,3.1,risk
+29,Marine Drive,attraction,18.9432,72.8238,2.0,2.0,safe
+30,Varkala Beach,beach,8.7379,76.716,4.5,2.45,safe
+31,Meenakshi Temple,temple,9.9195,78.1193,2.0,3.03,risk
+32,Red Fort,attraction,28.6562,77.241,2.0,2.07,risk
+33,Cubbon Park,park,12.9763,77.6033,2.5,1.11,safe
+34,Marine Drive,attraction,18.9432,72.8238,2.0,1.61,safe
+35,Jim Corbett National Park,national_park,29.53,78.7747,6.0,6.79,risk
+36,Roopkund Trek,trekking,30.2335,79.7036,6.0,5.66,safe
+37,Baga Beach,beach,15.5527,73.7517,4.5,4.64,risk
+38,Manali Trek,trekking,32.2396,77.1887,6.0,7.08,risk
+39,Golden Temple,attraction,31.62,74.8765,2.0,1.75,safe
+40,Gir National Park,national_park,21.124,70.8242,6.0,8.58,risk
+41,Colaba Causeway Mumbai,market,18.9229,72.8324,2.0,2.55,risk
+42,MG Road Market Jaipur,market,26.9124,75.7873,2.0,0.83,safe
+43,Kovalam Beach,beach,8.4,76.978,4.5,4.19,safe
+44,PVR Cinemas Delhi,cinema,28.5674,77.321,3.0,2.81,safe
+45,PVR Cinemas Delhi,cinema,28.5674,77.321,3.0,3.28,risk
+46,Hampta Pass Trek,trekking,32.2781,77.377,6.0,9.46,risk
+47,Jim Corbett National Park,national_park,29.53,78.7747,6.0,8.07,risk
+48,Baga Beach,beach,15.5527,73.7517,4.5,5.8,risk
+49,Cubbon Park,park,12.9763,77.6033,2.5,3.63,risk
+50,City Palace Udaipur,attraction,24.576,73.682,2.0,1.55,safe
+51,Gateway of India,attraction,18.922,72.8347,1.5,1.36,safe
+52,Manali Trek,trekking,32.2396,77.1887,6.0,6.14,risk
+53,Varkala Beach,beach,8.7379,76.716,4.5,6.23,risk
+54,Hampta Pass Trek,trekking,32.2781,77.377,6.0,8.39,risk
+55,Kovalam Beach,beach,8.4,76.978,4.5,6.59,risk
+56,Commercial Street Bangalore,market,12.9835,77.605,2.0,2.0,safe
+57,Marine Drive,attraction,18.9432,72.8238,2.0,2.15,risk
+58,Nandi Hills,trekking,13.3702,77.6835,5.0,3.51,safe
+59,Qutub Minar,attraction,28.5244,77.1855,2.0,1.64,safe
+60,Red Fort,attraction,28.6562,77.241,2.0,0.86,safe
+61,Golden Temple,attraction,31.62,74.8765,2.0,1.15,safe
+62,Nandi Hills,trekking,13.3702,77.6835,5.0,5.25,risk
+63,Marine Drive,attraction,18.9432,72.8238,2.0,1.75,safe
+64,Mysore Palace,attraction,12.3052,76.6552,2.0,1.41,safe
+65,Phoenix Mall Mumbai,mall,19.076,72.8777,2.5,2.74,risk
+66,Manali Trek,trekking,32.2396,77.1887,6.0,4.59,safe
+67,Nandi Hills,trekking,13.3702,77.6835,5.0,7.37,risk
+68,Jim Corbett National Park,national_park,29.53,78.7747,6.0,8.58,risk
+69,Cubbon Park,park,12.9763,77.6033,2.5,1.61,safe
+70,Jim Corbett National Park,national_park,29.53,78.7747,6.0,5.71,safe
+71,Hawa Mahal,attraction,26.9239,75.8267,1.5,2.35,risk
+72,Wonderla,theme_park,12.8345,77.4011,4.0,3.41,safe
+73,Bannerghatta Zoo,zoo,12.8,77.577,4.0,5.32,risk
+74,Nandi Hills,trekking,13.3702,77.6835,5.0,3.33,safe
+75,Select City Walk Delhi,mall,28.5286,77.2193,2.5,2.65,risk
+76,Jim Corbett National Park,national_park,29.53,78.7747,6.0,5.72,safe
+77,Essel World,theme_park,19.2288,72.8031,4.0,3.01,safe
+78,Qutub Minar,attraction,28.5244,77.1855,2.0,2.48,risk
+79,Kaziranga National Park,national_park,26.5775,93.1711,6.0,6.85,risk
+80,Charminar,attraction,17.3616,78.4747,1.5,0.99,safe
+81,Wonderla,theme_park,12.8345,77.4011,4.0,4.87,risk
+82,Baga Beach,beach,15.5527,73.7517,4.5,6.43,risk
+83,Manali Trek,trekking,32.2396,77.1887,6.0,4.39,safe
+84,MG Road Market Jaipur,market,26.9124,75.7873,2.0,1.8,safe
+85,Commercial Street Bangalore,market,12.9835,77.605,2.0,1.05,safe
+86,Select City Walk Delhi,mall,28.5286,77.2193,2.5,1.1,safe
+87,Gir National Park,national_park,21.124,70.8242,6.0,5.52,safe
+88,Golden Temple,attraction,31.62,74.8765,2.0,2.29,risk
+89,Bannerghatta Zoo,zoo,12.8,77.577,4.0,2.85,safe
+90,INOX Bangalore,cinema,12.9716,77.5946,3.0,3.4,risk
+91,Manali Trek,trekking,32.2396,77.1887,6.0,8.94,risk
+92,India Gate,attraction,28.6129,77.2295,1.5,0.83,safe
+93,Essel World,theme_park,19.2288,72.8031,4.0,3.88,safe
+94,India Gate,attraction,28.6129,77.2295,1.5,1.92,risk
+95,Varkala Beach,beach,8.7379,76.716,4.5,3.7,safe
+96,Red Fort,attraction,28.6562,77.241,2.0,2.75,risk
+97,Commercial Street Bangalore,market,12.9835,77.605,2.0,2.63,risk
+98,India Gate,attraction,28.6129,77.2295,1.5,1.88,risk
+99,Mysore Palace,attraction,12.3052,76.6552,2.0,2.24,risk
+100,Kovalam Beach,beach,8.4,76.978,4.5,5.66,risk
