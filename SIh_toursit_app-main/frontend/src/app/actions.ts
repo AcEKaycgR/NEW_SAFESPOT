@@ -1,6 +1,7 @@
 'use server';
 
 import { baseUrl } from '@/lib/config';
+console.log('🚀 Actions using base URL:', baseUrl);
 
 // Define types that match the backend flow inputs/outputs
 export type SafetyScoreInput = {
