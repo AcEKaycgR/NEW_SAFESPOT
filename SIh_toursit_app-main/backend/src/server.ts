@@ -10,6 +10,7 @@ import { geofenceRoutes } from './routes/geofence.routes';
 import { generateSafetyScoreFlow } from './ai/flows/safety-score-generator';
 import { detectAnomaliesInIncidentsFlow } from './ai/flows/anomaly-detection-for-incidents';
 import { touristAssistantFlow } from './ai/flows/tourist-assistant';
+import { server, io } from './socket-server';
 
 const app = express();
 const port = parseInt(process.env.PORT || '3001', 10);
@@ -73,8 +74,15 @@ app.post('/touristAssistantFlow', async (req, res) => {
   }
 });
 
-app.listen(port, () => {
+// Start main server
+const mainServer = app.listen(port, () => {
   console.log(`🚀 Server listening at http://localhost:${port}`);
   console.log(`📋 Health check: http://localhost:${port}/health`);
   console.log(`🔗 Blockchain API: http://localhost:${port}/api/blockchain`);
+});
+
+// Start Socket.IO server on different port
+const socketPort = parseInt(process.env.SOCKET_PORT || '3002', 10);
+server.listen(socketPort, () => {
+  console.log(`🔌 Socket.IO server listening at http://localhost:${socketPort}`);
 });

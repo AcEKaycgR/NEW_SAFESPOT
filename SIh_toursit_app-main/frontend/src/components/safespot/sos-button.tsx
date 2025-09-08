@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -15,24 +15,57 @@ import {
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { Siren, ShieldCheck, CheckCircle2, AlertTriangle } from 'lucide-react';
+import { socketService } from '@/lib/socket';
 
 export default function SosButton() {
   const [dispatchState, setDispatchState] = useState<'idle' | 'pending' | 'dispatched'>('idle');
   const { toast } = useToast();
+  const [touristData, setTouristData] = useState({
+    id: 'tourist_123', // In real app, get from auth context
+    name: 'John Doe',
+    location: { lat: 19.0760, lng: 72.8777 } // Mumbai coordinates
+  });
+
+  useEffect(() => {
+    // Listen for SOS acknowledgment
+    socketService.onSOSAcknowledged((data) => {
+      setDispatchState('dispatched');
+      toast({
+        title: "Help is on the way",
+        description: `Your SOS has been acknowledged by admin.`,
+      });
+    });
+
+    // Cleanup listeners on component unmount
+    return () => {
+      socketService.getSocket().off('SOS_ACKNOWLEDGED');
+    };
+  }, [toast]);
 
   const handleSosConfirm = () => {
     setDispatchState('pending');
+    
+    // Send SOS via WebSocket
+    socketService.sendSOS({
+      touristId: touristData.id,
+      name: touristData.name,
+      location: touristData.location,
+      message: "Emergency SOS triggered by tourist"
+    });
+
     toast({
       title: "SOS Signal Sent",
       description: "Authorities have been notified of your location.",
     });
 
     setTimeout(() => {
+      if (dispatchState === 'pending') {
         setDispatchState('dispatched');
         toast({
-            title: "Dispatch Confirmed",
-            description: "Help is on the way. Please stay in a safe location.",
-          });
+          title: "Dispatch Confirmed",
+          description: "Help is on the way. Please stay in a safe location.",
+        });
+      }
     }, 3000);
   };
 

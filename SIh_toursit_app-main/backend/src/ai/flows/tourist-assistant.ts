@@ -43,7 +43,8 @@ const prompt = ai.definePrompt({
   prompt: ({ message, currentLocation }) => {
     const currentDate = new Date().toDateString();
     
-    return `You are a friendly and highly capable AI assistant for a tourist safety app called SafeSpot. Your goal is to help tourists with their travel plans and safety concerns.
+    return [{
+      text: `You are a friendly and highly capable AI assistant for a tourist safety app called SafeSpot. Your goal is to help tourists with their travel plans and safety concerns.
 
 You must first determine the user's intent from their message and then respond accordingly. The possible intents are: 'itinerary', 'safety', 'emergency', or 'general'.
 
@@ -86,7 +87,8 @@ ${currentLocation ? `Current Location: Lat ${currentLocation.latitude}, Lon ${cu
 
 User Message:
 "${message}"
-`;
+`
+    }];
   },
 });
 
