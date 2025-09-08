@@ -1,5 +1,6 @@
-
 'use server';
+
+import { baseUrl } from '@/lib/config';
 
 // Define types that match the backend flow inputs/outputs
 export type SafetyScoreInput = {
@@ -60,9 +61,7 @@ export type TouristAssistantOutput = {
 
 // Helper function to make API requests to the backend
 async function callBackendApi(endpoint: string, data: any) {
-  // Use NEXT_PUBLIC_API_BASE_URL for client-side requests, fallback to localhost:3001
-  const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:3001';
-  
+  // Use baseUrl for client-side requests
   try {
     const response = await fetch(`${baseUrl}${endpoint}`, {
       method: 'POST',

@@ -8,8 +8,13 @@ const server = http.createServer(app);
 // Initialize Socket.IO
 const io = new Server(server, {
   cors: {
-    origin: "*", // Adjust for production
-    methods: ["GET", "POST"]
+    origin: [
+      "http://localhost:3000",
+      "https://your-frontend.onrender.com",
+      "https://your-custom-domain.com"
+    ],
+    methods: ["GET", "POST"],
+    credentials: true
   }
 });
 
@@ -37,12 +42,14 @@ io.on('connection', (socket) => {
     
     sosIncidents.set(incidentId, incident);
     
+    console.log('Broadcasting NEW_SOS_INCIDENT:', incident);
     // Broadcast to all admins
     io.emit('NEW_SOS_INCIDENT', incident);
   });
 
   // Admin acknowledges incident
   socket.on('ACKNOWLEDGE_SOS', (data) => {
+    console.log('ACKNOWLEDGE_SOS received:', data);
     const incident = sosIncidents.get(data.incidentId);
     if (incident) {
       incident.status = 'acknowledged';
@@ -51,11 +58,17 @@ io.on('connection', (socket) => {
       
       sosIncidents.set(data.incidentId, incident);
       
+      console.log('Broadcasting SOS_ACKNOWLEDGED:', {
+        incidentId: data.incidentId,
+        acknowledgedBy: data.adminId
+      });
       // Notify tourist
       io.emit('SOS_ACKNOWLEDGED', {
         incidentId: data.incidentId,
         acknowledgedBy: data.adminId
       });
+    } else {
+      console.log('Incident not found:', data.incidentId);
     }
   });
 

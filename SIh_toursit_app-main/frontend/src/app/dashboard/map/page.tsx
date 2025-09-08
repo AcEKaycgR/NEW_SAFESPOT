@@ -9,26 +9,53 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { ListFilter, LocateFixed, Shield, MapPin, Navigation, Zap } from "lucide-react";
 import { useState, useEffect } from "react";
 
+// Skip static generation for this page during build
+export const dynamic = 'force-dynamic';
+
 export default function TouristMapPage() {
   const [geofences, setGeofences] = useState([]);
   const [mapRef, setMapRef] = useState<any>(null);
   const [currentPosition, setCurrentPosition] = useState<{ lat: number; lng: number } | null>(null);
 
   // Fetch geofences from API (same as admin)
+  // Only run in browser, not during build
   useEffect(() => {
-    fetch("/api/geofences")
-      .then((res) => res.json())
-      .then((data) => setGeofences(data.data?.geofences || []));
+    // Check if we're in a browser environment
+    if (typeof window !== 'undefined') {
+      fetch("/api/geofences")
+        .then((res) => res.json())
+        .then((data) => {
+          // Handle the case where data might be undefined
+          if (data && data.data && data.data.geofences) {
+            setGeofences(data.data.geofences);
+          } else {
+            setGeofences([]);
+          }
+        })
+        .catch((error) => {
+          console.error("Failed to fetch geofences:", error);
+          // Set empty array as fallback
+          setGeofences([]);
+        });
+    } else {
+      // During server-side rendering/build, use empty array
+      setGeofences([]);
+    }
   }, []);
 
   // Get current location for pan
+  // Only run in browser, not during build
   useEffect(() => {
-    if (navigator.geolocation) {
+    if (typeof window !== 'undefined' && navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((pos) => {
         setCurrentPosition({
           lat: pos.coords.latitude,
           lng: pos.coords.longitude,
         });
+      }, (error) => {
+        console.error("Failed to get current position:", error);
+        // Set default position as fallback
+        setCurrentPosition(null);
       });
     }
   }, []);

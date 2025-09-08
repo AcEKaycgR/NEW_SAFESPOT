@@ -27,31 +27,37 @@ export default function SosButton() {
   });
 
   useEffect(() => {
-    // Listen for SOS acknowledgment
-    socketService.onSOSAcknowledged((data) => {
-      setDispatchState('dispatched');
-      toast({
-        title: "Help is on the way",
-        description: `Your SOS has been acknowledged by admin.`,
+    // Only set up listeners in browser environment
+    if (typeof window !== 'undefined') {
+      // Listen for SOS acknowledgment
+      socketService.onSOSAcknowledged((data) => {
+        setDispatchState('dispatched');
+        toast({
+          title: "Help is on the way",
+          description: `Your SOS has been acknowledged by admin.`,
+        });
       });
-    });
 
-    // Cleanup listeners on component unmount
-    return () => {
-      socketService.getSocket().off('SOS_ACKNOWLEDGED');
-    };
+      // Cleanup listeners on component unmount
+      return () => {
+        socketService.getSocket().off('SOS_ACKNOWLEDGED');
+      };
+    }
   }, [toast]);
 
   const handleSosConfirm = () => {
     setDispatchState('pending');
     
     // Send SOS via WebSocket
-    socketService.sendSOS({
+    const sosData = {
       touristId: touristData.id,
       name: touristData.name,
       location: touristData.location,
       message: "Emergency SOS triggered by tourist"
-    });
+    };
+    
+    console.log('Sending SOS data:', sosData);
+    socketService.sendSOS(sosData);
 
     toast({
       title: "SOS Signal Sent",

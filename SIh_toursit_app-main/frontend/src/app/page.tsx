@@ -145,12 +145,14 @@ export default function LandingPage() {
               className="mb-12"
             >
               <h2 className="text-6xl md:text-8xl font-bold text-foreground mb-6 leading-tight">
-                Explore India,{` `}
+                <span className="bg-gradient-to-r from-accent to-primary bg-clip-text text-transparent">
+                  Explore
+                </span> <span className="text-foreground">India</span>,{` `}
                 <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-                  Stay Safe
-                </span>
+                  Stay
+                </span> <span className="text-foreground">Safe</span>
               </h2>
-              <p className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
+              <p className="text-xl md:text-2xl text-foreground max-w-3xl mx-auto leading-relaxed">
                 Discover the incredible diversity of India with confidence. Get real-time safety insights, 
                 smart itineraries, and local guidance for your unforgettable journey.
               </p>

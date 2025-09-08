@@ -6,6 +6,9 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Phone, MessageSquare, Shield, AlertTriangle, User, MapPin, Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
+// Skip static generation for this page during build
+export const dynamic = 'force-dynamic';
+
 export default function SosPage() {
   const emergencyContacts = [
     {

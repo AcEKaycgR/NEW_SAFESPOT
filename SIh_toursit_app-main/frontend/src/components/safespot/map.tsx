@@ -199,6 +199,11 @@ const mapStyles = [
 ];
 
 const getGeofenceOptions = (risk: string) => {
+    // Handle undefined or null risk
+    if (!risk) {
+        return { fillColor: '#10B981', strokeColor: '#047857' }; // Default to Green
+    }
+    
     switch(risk) {
         case 'High':
             return { fillColor: '#EF4444', strokeColor: '#B91C1C' }; // Red
@@ -233,7 +238,7 @@ export default function Map({
 }: MapProps) {
   const { isLoaded } = useJsApiLoader({
     id: "google-map-script",
-    googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || "",
+    googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || "placeholder-key-for-build",
   });
 
   // Use the geolocation hook for improved accuracy
@@ -253,7 +258,7 @@ export default function Map({
 
   const mapRef = React.useRef<any>(null);
 
-  if (!process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY) {
+  if (!process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY === "placeholder-key-for-build") {
     return (
       <div
         className={cn(
@@ -319,12 +324,12 @@ export default function Map({
                 }}
             />
         )}
-        {showGeofences && geofences.map(fence => (
+        {showGeofences && Array.isArray(geofences) && geofences.map(fence => (
             <Polygon 
-                key={fence.id}
-                paths={fence.polygon_coords?.map((coord: any) => ({ lat: coord.lat, lng: coord.lng }))}
+                key={fence?.id || Math.random()}
+                paths={fence?.polygon_coords?.map((coord: any) => ({ lat: coord?.lat, lng: coord?.lng })) || []}
                 options={{
-                    ...getGeofenceOptions(fence.risk_level || fence.risk),
+                    ...getGeofenceOptions(fence?.risk_level || fence?.risk || 'Low'),
                     strokeOpacity: 0.8,
                     strokeWeight: 2,
                     fillOpacity: 0.35,

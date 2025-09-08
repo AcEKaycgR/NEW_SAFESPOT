@@ -1,10 +1,9 @@
 // Frontend-backend integration utility functions
 import { toast } from '@/hooks/use-toast';
+import { baseUrl } from '@/lib/config';
 
 // API base URL - should be from environment in production
-const API_BASE_URL = typeof window !== 'undefined' && window.location 
-  ? `${window.location.protocol}//${window.location.hostname}:3001`
-  : 'http://localhost:3001';
+const API_BASE_URL = baseUrl;
 
 // Types for API responses
 export interface UserData {

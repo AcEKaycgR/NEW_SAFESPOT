@@ -35,9 +35,11 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { SOSNotificationHandler } from "@/components/safespot/sos-notifications";
 
 const navItems = [
   { href: "/admin/dashboard", icon: LayoutDashboard, label: "Dashboard" },
+  { href: "/admin/sos-dashboard", icon: ShieldAlert, label: "SOS Dashboard" },
   { href: "/admin/incidents", icon: ShieldAlert, label: "Incidents" },
   { href: "/admin/map", icon: MapIcon, label: "Map View" },
   { href: "/admin/geofences", icon: MapPin, label: "Geofences" },
@@ -64,6 +66,7 @@ export default function AdminLayout({
 
   return (
     <SidebarProvider>
+      <SOSNotificationHandler />
       <Sidebar>
         <SidebarHeader>
           <div className="flex h-12 items-center gap-2.5 px-2">

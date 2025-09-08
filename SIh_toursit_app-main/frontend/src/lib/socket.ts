@@ -1,37 +1,78 @@
 import { io, Socket } from 'socket.io-client';
-
-const SOCKET_URL = process.env.NEXT_PUBLIC_SOCKET_URL || 'http://localhost:3002';
+import { socketUrl } from '@/lib/config';
 
 class SocketService {
   private socket: Socket;
 
   constructor() {
-    this.socket = io(SOCKET_URL);
+    // Only initialize socket in browser environment
+    if (typeof window !== 'undefined') {
+      console.log('Initializing Socket.IO connection to:', socketUrl);
+      this.socket = io(socketUrl, {
+        reconnection: true,
+        reconnectionAttempts: 5,
+        reconnectionDelay: 1000,
+        transports: ['websocket', 'polling'],
+      });
+      
+      // Add connection debugging
+      this.socket.on('connect', () => {
+        console.log('Socket.IO connected with ID:', this.socket.id);
+      });
+      
+      this.socket.on('connect_error', (error) => {
+        console.error('Socket.IO connection error:', error);
+      });
+      
+      this.socket.on('disconnect', (reason) => {
+        console.log('Socket.IO disconnected. Reason:', reason);
+      });
+    } else {
+      // Create a mock socket for server-side rendering
+      this.socket = {
+        on: () => {},
+        off: () => {},
+        emit: () => {},
+        disconnect: () => {},
+      } as unknown as Socket;
+    }
   }
 
   // Send SOS alert
   sendSOS(data: any) {
-    this.socket.emit('SEND_SOS', data);
+    if (typeof window !== 'undefined') {
+      console.log('Sending SOS:', data);
+      this.socket.emit('SEND_SOS', data);
+    }
   }
 
   // Listen for SOS acknowledgment
   onSOSAcknowledged(callback: (data: any) => void) {
-    this.socket.on('SOS_ACKNOWLEDGED', callback);
+    if (typeof window !== 'undefined') {
+      this.socket.on('SOS_ACKNOWLEDGED', callback);
+    }
   }
 
   // Listen for new SOS incidents (for admin dashboard)
   onNewSOSIncident(callback: (data: any) => void) {
-    this.socket.on('NEW_SOS_INCIDENT', callback);
+    if (typeof window !== 'undefined') {
+      this.socket.on('NEW_SOS_INCIDENT', callback);
+    }
   }
 
   // Acknowledge SOS incident (for admin)
   acknowledgeSOS(data: any) {
-    this.socket.emit('ACKNOWLEDGE_SOS', data);
+    if (typeof window !== 'undefined') {
+      console.log('Acknowledging SOS:', data);
+      this.socket.emit('ACKNOWLEDGE_SOS', data);
+    }
   }
 
   // Disconnect
   disconnect() {
-    this.socket.disconnect();
+    if (typeof window !== 'undefined') {
+      this.socket.disconnect();
+    }
   }
 
   // Get socket instance

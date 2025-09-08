@@ -8,6 +8,15 @@ const nextConfig: NextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
   },
+  // Disable static site generation to prevent build errors
+  output: 'standalone',
+  // Configure experimental features
+  experimental: {
+    scrollRestoration: true,
+    serverActions: {
+      bodySizeLimit: '2mb',
+    },
+  },
   async rewrites() {
     return [
       {
