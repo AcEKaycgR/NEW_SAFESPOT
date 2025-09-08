@@ -63,13 +63,6 @@ export default function ItineraryPage() {
     other: 'bg-gray-500 text-white'
   };
 
-  const categoryIcons = {
-    flight: Plane,
-    hotel: Hotel,
-    activity: '🎯',
-    other: '📋'
-  };
-
   const categoryLabels = {
     flight: 'Flight',
     hotel: 'Hotel',
@@ -127,7 +120,7 @@ export default function ItineraryPage() {
       } else {
         toast({
           title: "No Itinerary Generated",
-          description: "The AI assistant didn't generate any itinerary items. Please try rephrasing your request.",
+          description: "The AI assistant didn't generate any itinerary items. Please try rephrasing your request with more specific details like '3 days in Jaipur focusing on historical sites and culture'.",
           variant: "destructive"
         });
       }
@@ -196,7 +189,7 @@ export default function ItineraryPage() {
                     <Label htmlFor="ai-prompt">Describe your ideal trip</Label>
                     <Textarea
                       id="ai-prompt"
-                      placeholder="e.g., 3 days in Mumbai focusing on culture and food..."
+                      placeholder="e.g., 3 days in Jaipur focusing on historical sites and culture..."
                       value={aiPrompt}
                       onChange={(e) => setAiPrompt(e.target.value)}
                       className="mt-1"
@@ -292,7 +285,7 @@ export default function ItineraryPage() {
                       id="title"
                       value={newItem.title}
                       onChange={(e) => setNewItem({...newItem, title: e.target.value})}
-                      placeholder="e.g., Flight to Mumbai"
+                      placeholder="e.g., Flight to Jaipur"
                     />
                   </div>
                   

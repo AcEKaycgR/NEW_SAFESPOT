@@ -92,11 +92,14 @@ export default function SafetyScoreWrapper({ onExplanationChange }: { onExplanat
           currentLocation
         ];
 
+        // Use current time for the safety score calculation
+        const currentTime = new Date().toISOString();
+
         const input = {
           currentLocation,
           locationHistory,
           itinerary: "Tourist exploration",
-          time: new Date().toISOString(),
+          time: currentTime, // Using current time instead of hardcoded value
           region,
         };
 
