@@ -52,8 +52,8 @@ We've recently implemented a comprehensive real-time SOS emergency system that e
 
 ```bash
 # Clone the repository
-git clone <repository-url>
-cd SIh_toursit_app-main
+git clone https://github.com/AcEKaycgR/NEW_SAFESPOT.git
+cd NEW_SAFESPOT
 
 # Install all dependencies
 npm run install:all
