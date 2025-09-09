@@ -13,7 +13,7 @@ import { touristAssistantFlow } from './ai/flows/tourist-assistant';
 import { server, io } from './socket-server';
 
 const app = express();
-const port = parseInt(process.env.PORT || '3001', 10);
+const port = parseInt(process.env.PORT || '10000', 10);
 
 // Middleware
 app.use(cors({
@@ -84,6 +84,7 @@ app.post('/touristAssistantFlow', async (req, res) => {
 });
 
 // Start main server
+const port = parseInt(process.env.PORT || '3001', 10);
 const mainServer = app.listen(port, '0.0.0.0', () => {
   console.log(`🚀 Server listening at http://0.0.0.0:${port}`);
   console.log(`📋 Health check: http://0.0.0.0:${port}/health`);
