@@ -12,7 +12,7 @@ yarn-error.log*
 __pycache__
 
 # Build outputs
-dist/
+
 build/
 
 # IDE files

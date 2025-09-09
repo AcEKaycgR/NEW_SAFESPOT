@@ -1,0 +1,18 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const location_controller_1 = require("../controllers/location.controller");
+const location_auth_middleware_1 = require("../middleware/location-auth.middleware");
+const router = (0, express_1.Router)();
+router.use(location_auth_middleware_1.authenticateToken);
+router.use(location_auth_middleware_1.logLocationAccess);
+router.use(location_auth_middleware_1.rateLimitLocationOperations);
+router.post('/share', location_controller_1.locationController.toggleLocationSharing.bind(location_controller_1.locationController));
+router.post('/share/create', location_controller_1.locationController.createLocationShare.bind(location_controller_1.locationController));
+router.get('/share/:shareId', location_controller_1.locationController.getLocationShare.bind(location_controller_1.locationController));
+router.put('/share/:shareId', location_controller_1.locationController.updateLocationShare.bind(location_controller_1.locationController));
+router.delete('/share/:shareId', location_controller_1.locationController.deleteLocationShare.bind(location_controller_1.locationController));
+router.get('/access-history', location_controller_1.locationController.getAccessHistory.bind(location_controller_1.locationController));
+router.get('/user/:userId/shares', location_auth_middleware_1.authorizeLocationAccess, location_controller_1.locationController.getUserLocationShares.bind(location_controller_1.locationController));
+router.get('/user/:userId/active', location_auth_middleware_1.authorizeLocationAccess, location_controller_1.locationController.getActiveLocationShares.bind(location_controller_1.locationController));
+exports.default = router;

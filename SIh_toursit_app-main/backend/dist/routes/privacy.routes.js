@@ -1,0 +1,11 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.privacyRoutes = void 0;
+const express_1 = require("express");
+const privacy_controller_1 = require("../controllers/privacy.controller");
+const location_auth_middleware_1 = require("../middleware/location-auth.middleware");
+const router = (0, express_1.Router)();
+exports.privacyRoutes = router;
+router.use(location_auth_middleware_1.authenticateToken);
+router.get('/settings', privacy_controller_1.privacyController.getPrivacySettings.bind(privacy_controller_1.privacyController));
+router.put('/settings', privacy_controller_1.privacyController.updatePrivacySettings.bind(privacy_controller_1.privacyController));
