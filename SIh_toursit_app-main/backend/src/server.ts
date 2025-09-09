@@ -84,15 +84,21 @@ app.post('/touristAssistantFlow', async (req, res) => {
 });
 
 // Start main server
-const port = parseInt(process.env.PORT || '3001', 10);
 const mainServer = app.listen(port, '0.0.0.0', () => {
   console.log(`🚀 Server listening at http://0.0.0.0:${port}`);
   console.log(`📋 Health check: http://0.0.0.0:${port}/health`);
   console.log(`🔗 Blockchain API: http://0.0.0.0:${port}/api/blockchain`);
 });
 
-// Start Socket.IO server on different port
-const socketPort = parseInt(process.env.SOCKET_PORT || '3002', 10);
-server.listen(socketPort, '0.0.0.0', () => {
-  console.log(`🔌 Socket.IO server listening at http://0.0.0.0:${socketPort}`);
+// Attach Socket.IO to the same HTTP server
+const io = new Server(mainServer, {
+  cors: {
+    origin: true,
+    methods: ["GET", "POST"],
+    credentials: true
+  },
+  path: '/socket.io/'
 });
+
+// Export the io instance for use in other files
+export { io };

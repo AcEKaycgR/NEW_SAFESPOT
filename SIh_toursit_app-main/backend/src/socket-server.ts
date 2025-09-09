@@ -1,20 +1,7 @@
 import { Server } from 'socket.io';
 import http from 'http';
 import express from 'express';
-
-const app = express();
-const server = http.createServer(app);
-
-// Initialize Socket.IO
-const io = new Server(server, {
-  cors: {
-    origin: true, // Allow all origins
-    methods: ["GET", "POST"],
-    credentials: true
-  },
-  path: '/socket.io/',
-  serveClient: false
-});
+import { io } from './server';
 
 // Store active SOS incidents
 const sosIncidents: Map<string, any> = new Map();
@@ -76,4 +63,4 @@ io.on('connection', (socket) => {
   });
 });
 
-export { server, io };
+export { io };
