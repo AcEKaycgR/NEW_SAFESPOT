@@ -18,11 +18,11 @@ const io = new Server(server, {
 const sosIncidents: Map<string, any> = new Map();
 
 io.on('connection', (socket) => {
-  console.log('User connected:', socket.id);
+  console.log('📱 User connected:', socket.id);
 
   // Tourist sends SOS
   socket.on('SEND_SOS', (data) => {
-    console.log('SOS Received:', data);
+    console.log('🚨 SOS Received:', data);
     
     // Store incident
     const incidentId = `sos_${Date.now()}`;
@@ -38,14 +38,14 @@ io.on('connection', (socket) => {
     
     sosIncidents.set(incidentId, incident);
     
-    console.log('Broadcasting NEW_SOS_INCIDENT:', incident);
+    console.log('📢 Broadcasting NEW_SOS_INCIDENT:', incident);
     // Broadcast to all admins
     io.emit('NEW_SOS_INCIDENT', incident);
   });
 
   // Admin acknowledges incident
   socket.on('ACKNOWLEDGE_SOS', (data) => {
-    console.log('ACKNOWLEDGE_SOS received:', data);
+    console.log('✅ ACKNOWLEDGE_SOS received:', data);
     const incident = sosIncidents.get(data.incidentId);
     if (incident) {
       incident.status = 'acknowledged';
@@ -54,7 +54,7 @@ io.on('connection', (socket) => {
       
       sosIncidents.set(data.incidentId, incident);
       
-      console.log('Broadcasting SOS_ACKNOWLEDGED:', {
+      console.log('📢 Broadcasting SOS_ACKNOWLEDGED:', {
         incidentId: data.incidentId,
         acknowledgedBy: data.adminId
       });
@@ -64,13 +64,13 @@ io.on('connection', (socket) => {
         acknowledgedBy: data.adminId
       });
     } else {
-      console.log('Incident not found:', data.incidentId);
+      console.log('❌ Incident not found:', data.incidentId);
     }
   });
 
   // Tourist disconnects
   socket.on('disconnect', () => {
-    console.log('User disconnected:', socket.id);
+    console.log('👋 User disconnected:', socket.id);
   });
 });
 

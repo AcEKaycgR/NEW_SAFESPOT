@@ -16,7 +16,8 @@ class SocketService {
         reconnectionAttempts: 5,
         reconnectionDelay: 1000,
         transports: ['websocket', 'polling'],
-        path: '/socket.io/'
+        path: '/socket.io/',
+        secure: SOCKET_URL.startsWith('wss://') || SOCKET_URL.startsWith('https://')
       });
       
       // Add connection debugging
