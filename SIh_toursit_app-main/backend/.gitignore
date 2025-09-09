@@ -11,10 +11,6 @@
 # testing
 /coverage
 
-# build outputs
-/dist
-/build
-
 # misc
 .DS_Store
 *.pem
@@ -51,10 +47,6 @@ coverage/
 # Temporary folders
 tmp/
 temp/
-
-# Build outputs
-dist/
-.build/
 
 # NPM
 package-lock.json
