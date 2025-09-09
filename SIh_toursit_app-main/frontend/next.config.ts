@@ -18,10 +18,12 @@ const nextConfig: NextConfig = {
     },
   },
   async rewrites() {
+    // Use environment variable for API base URL, fallback to localhost for development
+    const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:3001';
     return [
       {
         source: '/api/:path*',
-        destination: 'http://localhost:3001/api/:path*',
+        destination: `${apiBaseUrl}/api/:path*`,
       },
     ];
   },

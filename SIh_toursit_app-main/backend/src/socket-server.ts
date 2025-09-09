@@ -11,7 +11,9 @@ const io = new Server(server, {
     origin: true, // Allow all origins
     methods: ["GET", "POST"],
     credentials: true
-  }
+  },
+  path: '/socket.io/',
+  serveClient: false
 });
 
 // Store active SOS incidents
