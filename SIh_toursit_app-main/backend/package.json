@@ -8,7 +8,7 @@
     "watch": "tsx --watch src/server.ts",
     "build": "tsc",
     "start": "node dist/server.js",
-    "render": "npm run build && npm run start",
+    "render": "export NODE_OPTIONS=--max-old-space-size=4096 && npm run build && npm run start",
     "test": "jest"
   },
   "dependencies": {

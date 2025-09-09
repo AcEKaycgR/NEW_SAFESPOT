@@ -1,0 +1,45 @@
+services:
+  - type: web
+    name: safespot-backend
+    runtime: node
+    plan: free
+    buildCommand: cd backend && npm install
+    startCommand: cd backend && npm run render
+    envVars:
+      - key: NODE_VERSION
+        value: 18
+      - key: PORT
+        value: 3001
+      - key: SOCKET_PORT
+        value: 3002
+      - key: NODE_ENV
+        value: production
+      - key: DATABASE_URL
+        value: file:./dev.db
+      - key: GOOGLE_API_KEY
+        value: your_google_ai_api_key
+      - key: GEMINI_API_KEY
+        value: your_google_ai_api_key
+      - key: JWT_SECRET
+        value: your_jwt_secret
+      - key: ENCRYPTION_KEY
+        value: your_encryption_key
+
+  - type: web
+    name: safespot-frontend
+    runtime: node
+    plan: free
+    buildCommand: cd frontend && npm install && npm run build
+    startCommand: cd frontend && npm run start
+    staticPublishDir: frontend/.next
+    envVars:
+      - key: NODE_VERSION
+        value: 18
+      - key: PORT
+        value: 3000
+      - key: NEXT_PUBLIC_API_BASE_URL
+        value: https://safespot-backend.onrender.com
+      - key: NEXT_PUBLIC_SOCKET_URL
+        value: wss://safespot-backend.onrender.com
+      - key: NEXT_PUBLIC_GOOGLE_MAPS_API_KEY
+        value: your_google_maps_api_key

@@ -84,14 +84,14 @@ app.post('/touristAssistantFlow', async (req, res) => {
 });
 
 // Start main server
-const mainServer = app.listen(port, () => {
-  console.log(`🚀 Server listening at http://localhost:${port}`);
-  console.log(`📋 Health check: http://localhost:${port}/health`);
-  console.log(`🔗 Blockchain API: http://localhost:${port}/api/blockchain`);
+const mainServer = app.listen(port, '0.0.0.0', () => {
+  console.log(`🚀 Server listening at http://0.0.0.0:${port}`);
+  console.log(`📋 Health check: http://0.0.0.0:${port}/health`);
+  console.log(`🔗 Blockchain API: http://0.0.0.0:${port}/api/blockchain`);
 });
 
 // Start Socket.IO server on different port
 const socketPort = parseInt(process.env.SOCKET_PORT || '3002', 10);
-server.listen(socketPort, () => {
-  console.log(`🔌 Socket.IO server listening at http://localhost:${socketPort}`);
+server.listen(socketPort, '0.0.0.0', () => {
+  console.log(`🔌 Socket.IO server listening at http://0.0.0.0:${socketPort}`);
 });

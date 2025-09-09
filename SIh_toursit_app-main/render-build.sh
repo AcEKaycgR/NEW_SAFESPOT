@@ -14,12 +14,14 @@ check_success() {
 
 echo "🚀 Starting Render build process..."
 
-# Build backend first
+# Build backend
 echo "📦 Building backend..."
 cd backend
 npm install
 check_success "Backend dependencies installation"
 
+# Set Node.js memory limit for TypeScript build
+export NODE_OPTIONS="--max-old-space-size=4096"
 npm run build
 check_success "Backend build"
 
@@ -40,6 +42,8 @@ echo "NEXT_PUBLIC_API_BASE_URL=$NEXT_PUBLIC_API_BASE_URL" > .env.local
 echo "NEXT_PUBLIC_SOCKET_URL=$NEXT_PUBLIC_SOCKET_URL" >> .env.local
 echo "NEXT_PUBLIC_GOOGLE_MAPS_API_KEY=${NEXT_PUBLIC_GOOGLE_MAPS_API_KEY:-"placeholder-key-for-build"}" >> .env.local
 
+# Set memory limit for Next.js build
+export NODE_OPTIONS="--max-old-space-size=4096"
 npm run build
 check_success "Frontend build"
 
