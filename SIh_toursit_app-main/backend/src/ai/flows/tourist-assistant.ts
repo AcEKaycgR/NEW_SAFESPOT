@@ -7,9 +7,9 @@
  * - TouristAssistantOutput - The return type for the touristAssistant function.
  */
 
-import {ai} from '@/ai/genkit';
+import {ai} from '../genkit';
 import {z} from 'genkit';
-import { ItineraryItemSchema } from '@/ai/schemas/itinerary-item';
+import { ItineraryItemSchema } from '../schemas/itinerary-item';
 
 
 const TouristAssistantInputSchema = z.object({

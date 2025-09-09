@@ -8,7 +8,7 @@
     "watch": "tsx --watch src/server.ts",
     "build": "tsc --incremental",
     "start": "node dist/server.js",
-    "render": "node -r tsconfig-paths/register dist/server.js",
+    "render": "node dist/server.js",
     "test": "jest"
   },
   "dependencies": {

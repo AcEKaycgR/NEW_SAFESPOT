@@ -8,7 +8,7 @@
  * - SafetyScoreOutput - The return type for the generateSafetyScore function.
  */
 
-import {ai} from '@/ai/genkit';
+import {ai} from '../genkit';
 import {z} from 'genkit';
 
 const LocationPointSchema = z.object({
