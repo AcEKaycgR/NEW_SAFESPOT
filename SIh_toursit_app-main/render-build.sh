@@ -20,8 +20,8 @@ cd backend
 npm install
 check_success "Backend dependencies installation"
 
-# Set Node.js memory limit for TypeScript build
-export NODE_OPTIONS="--max-old-space-size=4096"
+# Use memory-efficient build with incremental compilation
+export NODE_OPTIONS="--max-old-space-size=512"
 npm run build
 check_success "Backend build"
 
@@ -43,7 +43,7 @@ echo "NEXT_PUBLIC_SOCKET_URL=$NEXT_PUBLIC_SOCKET_URL" >> .env.local
 echo "NEXT_PUBLIC_GOOGLE_MAPS_API_KEY=${NEXT_PUBLIC_GOOGLE_MAPS_API_KEY:-"placeholder-key-for-build"}" >> .env.local
 
 # Set memory limit for Next.js build
-export NODE_OPTIONS="--max-old-space-size=4096"
+export NODE_OPTIONS="--max-old-space-size=512"
 npm run build
 check_success "Frontend build"
 

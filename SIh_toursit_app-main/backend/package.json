@@ -6,9 +6,9 @@
   "scripts": {
     "dev": "tsx src/server.ts",
     "watch": "tsx --watch src/server.ts",
-    "build": "tsc",
+    "build": "tsc --incremental",
     "start": "node dist/server.js",
-    "render": "node dist/server.js",
+    "render": "node --max-old-space-size=512 dist/server.js",
     "test": "jest"
   },
   "dependencies": {
