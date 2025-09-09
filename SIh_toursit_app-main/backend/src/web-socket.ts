@@ -24,7 +24,9 @@ export const initSocketServer = (server: http.Server) => {
       methods: ["GET", "POST"],
       credentials: true
     },
-    path: '/safespot-socket/'
+    path: '/safespot-socket/',
+    pingTimeout: 60000,
+    pingInterval: 25000
   });
 
   io.on('connection', (socket: Socket) => {
