@@ -3,6 +3,7 @@ config();
 
 import express from 'express';
 import cors from 'cors';
+import http from 'http';
 import { blockchainRouter } from './blockchain';
 import locationRoutes from './routes/location.routes';
 import { privacyRoutes } from './routes/privacy.routes';
@@ -10,18 +11,26 @@ import { geofenceRoutes } from './routes/geofence.routes';
 import { generateSafetyScoreFlow } from './ai/flows/safety-score-generator';
 import { detectAnomaliesInIncidentsFlow } from './ai/flows/anomaly-detection-for-incidents';
 import { touristAssistantFlow } from './ai/flows/tourist-assistant';
-import { server, io } from './socket-server';
+import { initSocketServer } from './web-socket'; // Corrected import
 
 const app = express();
 const port = parseInt(process.env.PORT || '10000', 10);
 
 // Middleware
+const allowedOrigins = [
+  'http://localhost:3000',
+  'https://new-safespot-1.onrender.com',
+  'https://your-custom-domain.com' // Placeholder
+];
+
 app.use(cors({
-  origin: [
-    'http://localhost:3000',
-    'https://your-frontend.onrender.com',
-    'https://your-custom-domain.com'
-  ],
+  origin: (origin, callback) => {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Origin', 'X-Requested-With', 'Content-Type', 'Accept', 'Authorization']
@@ -83,22 +92,17 @@ app.post('/touristAssistantFlow', async (req, res) => {
   }
 });
 
-// Start main server
-const mainServer = app.listen(port, '0.0.0.0', () => {
+// Create HTTP server
+const server = http.createServer(app);
+
+// Initialize Socket.IO
+const io = initSocketServer(server);
+
+// Start server
+server.listen(port, '0.0.0.0', () => {
   console.log(`🚀 Server listening at http://0.0.0.0:${port}`);
   console.log(`📋 Health check: http://0.0.0.0:${port}/health`);
   console.log(`🔗 Blockchain API: http://0.0.0.0:${port}/api/blockchain`);
 });
 
-// Attach Socket.IO to the same HTTP server
-const io = new Server(mainServer, {
-  cors: {
-    origin: true,
-    methods: ["GET", "POST"],
-    credentials: true
-  },
-  path: '/socket.io/'
-});
-
-// Export the io instance for use in other files
 export { io };

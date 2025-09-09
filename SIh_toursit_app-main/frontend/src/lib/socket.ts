@@ -12,14 +12,9 @@ class SocketService {
     if (typeof window !== 'undefined') {
       console.log('Initializing Socket.IO connection to:', SOCKET_URL);
       this.socket = io(SOCKET_URL, {
-        reconnection: true,
-        reconnectionAttempts: 5,
-        reconnectionDelay: 1000,
         transports: ['websocket', 'polling'],
         path: '/socket.io/',
-        secure: SOCKET_URL.startsWith('wss://') || SOCKET_URL.startsWith('https://'),
-        upgrade: true,
-        rememberUpgrade: true
+        secure: SOCKET_URL.startsWith('wss://'),
       });
       
       // Add connection debugging
