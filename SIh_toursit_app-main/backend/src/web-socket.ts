@@ -24,7 +24,7 @@ export const initSocketServer = (server: http.Server) => {
       methods: ["GET", "POST"],
       credentials: true
     },
-    path: '/socket.io/'
+    path: '/safespot-socket/'
   });
 
   io.on('connection', (socket: Socket) => {

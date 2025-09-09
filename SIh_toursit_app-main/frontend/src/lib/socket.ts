@@ -12,8 +12,8 @@ class SocketService {
     if (typeof window !== 'undefined') {
       console.log('Initializing Socket.IO connection to:', SOCKET_URL);
       this.socket = io(SOCKET_URL, {
-        transports: ['websocket', 'polling'],
-        path: '/socket.io/',
+        transports: ['websocket'],
+        path: '/safespot-socket/',
         secure: SOCKET_URL.startsWith('wss://'),
       });
       
