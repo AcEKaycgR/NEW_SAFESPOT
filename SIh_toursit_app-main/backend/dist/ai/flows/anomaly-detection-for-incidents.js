@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.detectAnomaliesInIncidentsFlow = void 0;
 exports.detectAnomaliesInIncidents = detectAnomaliesInIncidents;
-const genkit_1 = require("@/ai/genkit");
+const genkit_1 = require("../genkit");
 const genkit_2 = require("genkit");
 const DetectAnomaliesInIncidentsInputSchema = genkit_2.z.object({
     incidentReport: genkit_2.z.string().describe('The incident report text, which could be from a tourist or an observer.'),

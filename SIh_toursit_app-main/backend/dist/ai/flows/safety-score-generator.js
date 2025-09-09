@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.generateSafetyScoreFlow = void 0;
 exports.generateSafetyScore = generateSafetyScore;
-const genkit_1 = require("@/ai/genkit");
+const genkit_1 = require("../genkit");
 const genkit_2 = require("genkit");
 const LocationPointSchema = genkit_2.z.object({
     latitude: genkit_2.z.number(),

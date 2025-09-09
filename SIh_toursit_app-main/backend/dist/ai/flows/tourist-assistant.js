@@ -3,9 +3,9 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.touristAssistantFlow = void 0;
 exports.touristAssistant = touristAssistant;
-const genkit_1 = require("@/ai/genkit");
+const genkit_1 = require("../genkit");
 const genkit_2 = require("genkit");
-const itinerary_item_1 = require("@/ai/schemas/itinerary-item");
+const itinerary_item_1 = require("../schemas/itinerary-item");
 const TouristAssistantInputSchema = genkit_2.z.object({
     message: genkit_2.z.string().describe('The user\'s message to the assistant.'),
     currentLocation: genkit_2.z.object({
